@@ -137,6 +137,19 @@
           }
         });
       }
+      function checkAd(adFormat){
+
+          const bridge = vkBridge.default;
+          bridge.send("VKWebAppCheckNativeAds", {ad_format:adFormat});
+      bridge.subscribe((e) => {
+          if(e.detail.type == 'VKWebAppCheckNativeAdsResult' && e.detail.data.result == true) {
+              ss.SendMessage('Ads', 'SetResult', 'good');
+          }
+          if(e.detail.type == 'VKWebAppShowNativeAdsFailed') {
+             ss.SendMessage('Ads', 'SetResult', 'noGood');
+          }
+        });
+      }
       function sendPost(text){
           const bridge = vkBridge.default;
           bridge.send("VKWebAppShowWallPostBox", {
